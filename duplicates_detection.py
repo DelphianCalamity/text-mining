@@ -32,5 +32,5 @@ def detect_duplicates(df, theta, path):
 		print(x[0])
 		print(x[1])
 		print(similarities[x])
-		f.write(str(x[0]) + "	" + str(x[1]) + "	" + similarities[x])
+		f.write(str(x[0]) + "	" + str(x[1]) + "	" + str(similarities[x]))
 		
