@@ -12,6 +12,4 @@
 
 # Usage
 
-1. Run `python src/main.py --help`
-
-
+1. Run `python src/main.py --help` to view possible options
