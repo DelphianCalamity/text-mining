@@ -2,12 +2,12 @@
 
 
 """
-    LightPreprocessor class is the base class for preprocessing the input texts
+    Preprocessor class is the base class for preprocessing the input texts
 
-    TODO: describe LightPreprocessor functionality
+    TODO: describe Preprocessor functionality
 """
 
-class LightPreprocessor:
+class Preprocessor:
 
     def __init__(self, input_text_set=None, input_df=None, classes=None):
         self.input_text_set = input_text_set

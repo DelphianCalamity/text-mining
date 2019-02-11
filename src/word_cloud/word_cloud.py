@@ -17,7 +17,7 @@ class WordCloudGen:
         label_encoder.fit(self.train_df['Category'])
 
         self.classes = label_encoder.classes_
-        self.preprocessor = LightPreprocessor(input_df=self.train_df, classes=self.classes)
+        self.preprocessor = Preprocessor(input_df=self.train_df, classes=self.classes)
 
     # Builds WordClouds - one per class
     def generate_wordclouds(self):
