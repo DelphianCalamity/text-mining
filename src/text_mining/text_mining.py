@@ -26,24 +26,17 @@ class TextMining:
         if not os.path.exists(self.outputs):
             os.makedirs(self.outputs)
 
-        print self.wordcloud_out_dir
         if self.wordcloud_out_dir:
             if not os.path.exists(self.wordcloud_out_dir):
                 os.makedirs(self.wordcloud_out_dir)
 
-        print self.duplicates_out_dir
         if self.duplicates_out_dir:
             if not os.path.exists(self.duplicates_out_dir):
                 os.makedirs(self.duplicates_out_dir)
        
-        print self.classification_out_dir
         if self.classification_out_dir:
             if not os.path.exists(self.classification_out_dir):
                 os.makedirs(self.classification_out_dir)
-
-        print(self.csv_train_file)
-        print(self.csv_test_file)
-
 
     def preprocess(self):
         print "extra data preprocessing"
