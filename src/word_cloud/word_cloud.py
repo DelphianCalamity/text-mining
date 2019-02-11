@@ -22,5 +22,8 @@ class WordCloudGen:
 
         for label in self.classes : 
             text = self.train_df.loc[self.train_df['Category'] == label]['Content'].values
-            wordcloud = WordCloud().generate((np.array2string(text)))
+            wordcloud = WordCloud(max_words=1000,max_font_size=40, margin=10,
+                    random_state=1, width=840, height=420).generate((np.array2string(text)))
             wordcloud.to_file(self.path + label + '_wordcloud.png')
+
+
