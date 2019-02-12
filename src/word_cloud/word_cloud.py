@@ -14,13 +14,13 @@ class WordCloudGen:
         self.train_df = pd.read_csv(self.csv_train_file, sep='\t')
         
         self.classes = self.train_df.Category.unique()
-        print self.classes
+        print(self.classes)
         self.preprocessor = Preprocessor(input_df=self.train_df, classes=self.classes)
 
     # Builds WordClouds - one per class
     def generate_wordclouds(self):
 
-        print "Generating wordclouds in " + self.path
+        print("Generating wordclouds in " + self.path)
 
         for label in self.classes:
             text = self.preprocessor.preprocessed_text_per_cat(label)

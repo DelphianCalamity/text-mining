@@ -2,16 +2,17 @@ import pandas as pd
 import os
 
 from word_cloud.word_cloud import *
+from duplicates.duplicates_detection import *
 
 class TextMining:
 
     def __init__(self, datasets, outputs, preprocess=False, wordclouds=False, 
-            duplicates=False, classification=False, features=None):
+            dupThreshold=None, classification=False, features=None):
         self.datasets = datasets
         self.outputs = outputs
         self.preprocess = preprocess
         self.wordclouds = wordclouds
-        self.duplicates = duplicates
+        self.dupThreshold = dupThreshold
         self.classification = classification
         self.features = features
 
@@ -20,7 +21,7 @@ class TextMining:
         
         # define output directory names
         self.wordcloud_out_dir = outputs + '/' + 'wordcloud_out_dir/' if self.wordclouds else None
-        self.duplicates_out_dir = outputs + '/' + 'duplicates_out_dir/' if self.duplicates else None
+        self.duplicates_out_dir = outputs + '/' + 'duplicates_out_dir/' if self.dupThreshold else None
         self.classification_out_dir = outputs + '/' + 'classification_out_dir/' if self.classification else None
 
         if not os.path.exists(self.outputs):
@@ -39,18 +40,20 @@ class TextMining:
                 os.makedirs(self.classification_out_dir)
 
     def preprocess(self):
-        print "extra data preprocessing"
+        print("extra data preprocessing")
 
     def generate_wordclouds(self):
-        print "generate wordclouds per category of the given dataset"
+        print("generate wordclouds per category of the given dataset")
         wcGen = WordCloudGen(self.wordcloud_out_dir, self.csv_train_file)
         wcGen.generate_wordclouds()
 
-    def duplicates(self):
-        print "find similar documents"
+    def find_similar_docs(self):
+        print("find similar documents")
+        dupDet = DuplicateDetection(self.duplicates_out_dir, self.csv_train_file, self.dupThreshold)
+        dupDet.detect_duplicates()
 
     def run_classifiers(self):
-        print "run classifiers with the selected features: " + self.features
+        print("run classifiers with the selected features: " + self.features)
 
     def run(self):
         if self.preprocess:
@@ -59,7 +62,7 @@ class TextMining:
         if self.wordclouds:
             self.generate_wordclouds()
 
-        if self.duplicates:
+        if self.dupThreshold:
             self.find_similar_docs()
 
         if self.classification:
@@ -83,3 +86,6 @@ class TextMining:
 #    detect_duplicates(X_train, 0.7, duplicates_path)
 
 
+        # label_encoder = preprocessing.LabelEncoder()
+        # le.fit(df['Category'])
+        # Y_train = le.transform(df['Category'])

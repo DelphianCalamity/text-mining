@@ -1,29 +1,23 @@
-from sklearn.neighbors import LSHForest
 import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy import spatial
-from collections import namedtuple
 
 class DuplicateDetection:
 
-    def __init__(self, path, train_file, test_file):
+    def __init__(self, path, train_file, dupThreshold):
         self.path = path
         self.csv_train_file = train_file
         self.train_df = pd.read_csv(self.csv_train_file, sep='\t')
+        self.content = self.train_df['Content']
+        self.threshold = dupThreshold
 
-        label_encoder = preprocessing.LabelEncoder()
-        le.fit(df['Category'])
-        X_train = df['Content']
-        Y_train = le.transform(df['Category'])
+    # A naive algorithm for detecting duplicate documents
+    def detect_duplicates(self):
 
-    def detect_duplicates(df, theta, path):
-
-        corpus = df.values
+        corpus = self.content.values
         vectorizer = TfidfVectorizer(stop_words='english')
         X = vectorizer.fit_transform(corpus).toarray()
-        # print(vectorizer.get_feature_names())
-        print(X.shape)
         similarities = {}
 
         for idx_i, i in enumerate(X):
@@ -32,13 +26,11 @@ class DuplicateDetection:
                     j = X[idx_j]
                     if j.any(axis=0):
                         similarity = 1 - spatial.distance.cosine(i, j)
-                        if (similarity >= theta):
+                        if (similarity >= self.threshold):
                             similarities[(idx_i,idx_j)] = similarity
-
-        f = open(path + "duplicates.txt", "w")
+       
+        f = open(self.path + "duplicates.txt", "w")
         for x in similarities:
-            print(x[0])
-            print(x[1])
-            print(similarities[x])
-            f.write(str(x[0]) + "	" + str(x[1]) + "	" + str(similarities[x]))
-                    
+            f.write(str(x[0]) + "	" + str(x[1]) + "	" + str(similarities[x]) + "\n")
+        f.close()
+   
