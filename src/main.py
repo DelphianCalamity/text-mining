@@ -15,11 +15,12 @@ def make_args_parser():
             help='Generate word clouds for each category')
     parser.add_argument('--duplicates', dest='threshold', type=float, default=None,
             help='Identify similar documents within above a certain theta')
-    parser.add_argument('--classification', action='store_true',
+    parser.add_argument('--classification', choices=['SVM', 'RF', '_KNN_'],
             help='Runs default classifiers with 10-fold cross validation: Random Forest and SVM')
-    parser.add_argument('--features', choices=['BoW', 'SVD', 'W2V'],
-            default = None,
+    parser.add_argument('--features', choices=['BoW', 'SVD', 'W2V'], default = None,
             help='Define features')
+    parser.add_argument('--kfold', action='store_true', 
+            help='Evaluate and report the performance of each method using 10-fold Cross Validation')
 
     return parser.parse_args()
 
@@ -34,8 +35,8 @@ def main():
     args = make_args_parser()
     print_config(args)
     
-    text = TextMining(args.datasets, args.outputs, args.preprocess,
-            args.wordclouds, args.threshold, args.classification, args.features)
+    text = TextMining(args.datasets, args.outputs, args.preprocess, args.wordclouds, 
+            args.threshold, args.classification, args.features, args.kfold)
     
     text.run()
 

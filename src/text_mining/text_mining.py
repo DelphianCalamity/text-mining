@@ -1,5 +1,9 @@
 import pandas as pd
+import logging
 import os
+
+from classification.support_vector_machines import *
+from classification.random_forests import *
 
 from word_cloud.word_cloud import *
 from duplicates.duplicates_detection import *
@@ -7,7 +11,7 @@ from duplicates.duplicates_detection import *
 class TextMining:
 
     def __init__(self, datasets, outputs, preprocess=False, wordclouds=False, 
-            dupThreshold=None, classification=False, features=None):
+            dupThreshold=None, classification=None, features=None, kfold=False):
         self.datasets = datasets
         self.outputs = outputs
         self.preprocess = preprocess
@@ -15,6 +19,7 @@ class TextMining:
         self.dupThreshold = dupThreshold
         self.classification = classification
         self.features = features
+        self.kfold = kfold
 
         self.csv_train_file = datasets + '/' + 'train_set.csv'
         self.csv_test_file = datasets + '/' + 'test_set.csv'
@@ -40,20 +45,33 @@ class TextMining:
                 os.makedirs(self.classification_out_dir)
 
     def preprocess(self):
-        print("extra data preprocessing")
+        print("..extra data preprocessing")
 
     def generate_wordclouds(self):
-        print("generate wordclouds per category of the given dataset")
+        print("..generate wordclouds per category of the given dataset")
         wcGen = WordCloudGen(self.wordcloud_out_dir, self.csv_train_file)
         wcGen.generate_wordclouds()
 
     def find_similar_docs(self):
-        print("find similar documents")
+        print("..find similar documents")
         dupDet = DuplicateDetection(self.duplicates_out_dir, self.csv_train_file, self.dupThreshold)
         dupDet.detect_duplicates()
 
     def run_classifiers(self):
-        print("run classifiers with the selected features: " + self.features)
+        print("..run classifiers with the selected features: " + str(self.features))
+
+        if self.classification == 'SVM':
+            clf = SupportVectorMachines
+        elif self.classification == 'RF':
+            clf = RandomForests
+        # elif self.classification == '_KNN_':  # _KNN_ is a placeholder for out benchmark-beating classifier
+        #     cf = None
+        else:
+            logging.error('Unknown classifier "%s"', self.classification)
+
+        classifier = clf(self.classification_out_dir, self.csv_train_file, self.csv_test_file, self.kfold)
+        classifier.run()
+
 
     def run(self):
         if self.preprocess:
@@ -67,25 +85,3 @@ class TextMining:
 
         if self.classification:
             self.run_classifiers()
-
-
-#    #Read Data
-#    df = pd.read_csv(csv_train_file, sep='\t')
-#
-#    le = preprocessing.LabelEncoder()
-#    le.fit(df['Category'])
-#
-#    # WordCloud creation
-#    # generate_wordclouds(wordcloud_path, df, le.classes_)
-#
-#    X_train = df['Content']	
-#    Y_train = le.transform(df['Category'])
-#
-#    # Duplicates Detection
-#    # print(X_train)
-#    detect_duplicates(X_train, 0.7, duplicates_path)
-
-
-        # label_encoder = preprocessing.LabelEncoder()
-        # le.fit(df['Category'])
-        # Y_train = le.transform(df['Category'])

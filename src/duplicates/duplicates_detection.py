@@ -29,8 +29,8 @@ class DuplicateDetection:
                         if (similarity >= self.threshold):
                             similarities[(idx_i,idx_j)] = similarity
        
-        f = open(self.path + "duplicates.txt", "w")
-        for x in similarities:
-            f.write(str(x[0]) + "	" + str(x[1]) + "	" + str(similarities[x]) + "\n")
-        f.close()
+        
+        with open(self.path + "duplicates.txt", "w") as f:
+            for x in similarities:
+                f.write(str(x[0]) + "	" + str(x[1]) + "	" + str(similarities[x]) + "\n")
    
