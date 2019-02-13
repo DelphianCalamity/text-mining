@@ -15,8 +15,8 @@ from sklearn import metrics
 
 class SupportVectorMachines(Classifier):
 
-	def __init__(self, path, train_file, test_file, kfold):
-		Classifier.__init__(self, path, train_file, test_file, kfold)
+	def __init__(self, path, train_df, test_file, kfold):
+		Classifier.__init__(self, path, train_df, test_file, kfold)
 
 	def run(self):
 		vectorizer = CountVectorizer(stop_words='english')

@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+src/outputs/duplicates_out_dir/duplicates.txt
+src/outputs/wordcloud_out_dir/Business_wordcloud.png
+src/outputs/wordcloud_out_dir/Film_wordcloud.png
+src/outputs/wordcloud_out_dir/Football_wordcloud.png
+src/outputs/wordcloud_out_dir/Politics_wordcloud.png
+src/outputs/wordcloud_out_dir/Technology_wordcloud.png
+datasets/proccessed_train_set.csv

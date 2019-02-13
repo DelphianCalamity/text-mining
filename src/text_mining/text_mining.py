@@ -24,6 +24,9 @@ class TextMining:
         self.csv_train_file = datasets + '/' + 'train_set.csv'
         self.csv_test_file = datasets + '/' + 'test_set.csv'
         
+        self.train_df = pd.read_csv(self.csv_train_file, sep='\t')
+        self.classes = self.train_df.Category.unique()
+
         # define output directory names
         self.wordcloud_out_dir = outputs + '/' + 'wordcloud_out_dir/' if self.wordclouds else None
         self.duplicates_out_dir = outputs + '/' + 'duplicates_out_dir/' if self.dupThreshold else None
@@ -44,17 +47,24 @@ class TextMining:
             if not os.path.exists(self.classification_out_dir):
                 os.makedirs(self.classification_out_dir)
 
-    def preprocess(self):
-        print("..extra data preprocessing")
+
+
+    def preprocess_data(self):
+        print("..data preprocessing")
+        preprocessor = Preprocessor(self.train_df, self.classes)
+        self.train_df = preprocessor.text_lemmatization(self.train_df)
+
+        proccessed_csv_file =  self.datasets + '/' + 'proccessed_train_set.csv'
+        preprocessor.save_to_csv(proccessed_csv_file)
 
     def generate_wordclouds(self):
         print("..generate wordclouds per category of the given dataset")
-        wcGen = WordCloudGen(self.wordcloud_out_dir, self.csv_train_file)
+        wcGen = WordCloudGen(self.wordcloud_out_dir, self.csv_train_file, self.classes)
         wcGen.generate_wordclouds()
 
     def find_similar_docs(self):
         print("..find similar documents")
-        dupDet = DuplicateDetection(self.duplicates_out_dir, self.csv_train_file, self.dupThreshold)
+        dupDet = DuplicateDetection(self.duplicates_out_dir, self.train_df, self.dupThreshold, self.classes)
         dupDet.detect_duplicates()
 
     def run_classifiers(self):
@@ -69,13 +79,13 @@ class TextMining:
         else:
             logging.error('Unknown classifier "%s"', self.classification)
 
-        classifier = clf(self.classification_out_dir, self.csv_train_file, self.csv_test_file, self.kfold)
+        classifier = clf(self.classification_out_dir, self.train_df, self.csv_test_file, self.kfold)
         classifier.run()
 
 
     def run(self):
         if self.preprocess:
-            self.preprocess()
+            self.preprocess_data()
 
         if self.wordclouds:
             self.generate_wordclouds()

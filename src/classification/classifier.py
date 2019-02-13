@@ -5,9 +5,8 @@ from sklearn import preprocessing
 
 class Classifier:
 
-	def __init__(self, path, train_file, test_file, kfold):
+	def __init__(self, path, train_df, test_file, kfold):
 		
-		train_df = pd.read_csv(train_file, sep='\t')
 		test_df = pd.read_csv(test_file, sep='\t')
 
 		self.le = preprocessing.LabelEncoder()
