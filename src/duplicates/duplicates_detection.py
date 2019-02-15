@@ -42,7 +42,20 @@ class DuplicateDetection:
                                 similarities[(idx_i,idx_j)] = similarity
            
             
-        with open(self.path + "duplicates.txt", "w") as f:
+        with open(self.path + "duplicatePairs.csv", "w") as f:
+            sep = '\t'
+            f.write('Document_ID1')
+            f.write (sep)
+            f.write('Document_ID2')
+            f.write (sep)
+            f.write('Similarity')
+            f.write('\n')
+
             for x in similarities:
-                f.write(str(x[0]) + "	" + str(x[1]) + "	" + str(similarities[x]) + "\n")
-                print(str(x[0]) + "    " + str(x[1]) + "   " + str(similarities[x]) + "\n")
+                f.write( str(x[0]) )
+                f.write( sep )
+                f.write( x[1] )
+                f.write( sep )
+                f.write( str(similarities[x]) )
+                f.write('\n')
+                # print(str(x[0]) + "    " + str(x[1]) + "   " + str(similarities[x]) + "\n")  

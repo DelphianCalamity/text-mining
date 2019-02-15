@@ -52,7 +52,7 @@ class TextMining:
     def preprocess_data(self):
         print("..data preprocessing")
         preprocessor = Preprocessor(self.train_df, self.classes)
-        self.train_df = preprocessor.text_lemmatization(self.train_df)
+        self.train_df = preprocessor.text_stemming(self.train_df)
 
         proccessed_csv_file =  self.datasets + '/' + 'proccessed_train_set.csv'
         preprocessor.save_to_csv(proccessed_csv_file)
@@ -68,7 +68,7 @@ class TextMining:
         dupDet.detect_duplicates()
 
     def run_classifiers(self):
-        print("..run classifiers with the selected features: " + str(self.features))
+        print("..run " + str(self.classification) + " classifier with the selected features: " + str(self.features))
 
         if self.classification == 'SVM':
             clf = SupportVectorMachines
@@ -79,7 +79,7 @@ class TextMining:
         else:
             logging.error('Unknown classifier "%s"', self.classification)
 
-        classifier = clf(self.classification_out_dir, self.train_df, self.csv_test_file, self.kfold)
+        classifier = clf(self.classification_out_dir, self.train_df, self.csv_test_file, self.kfold, self.features)
         classifier.run()
 
 

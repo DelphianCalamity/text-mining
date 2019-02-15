@@ -14,8 +14,8 @@ from sklearn import metrics
 
 class RandomForests(Classifier):
 
-	def __init__(self, path, train_file, test_file, kfold):
-		Classifier.__init__(self, path, train_file, test_file, kfold)
+	def __init__(self, path, train_file, test_file, kfold, features):
+		Classifier.__init__(self, path, train_file, test_file, kfold, features)
 
 	def run(self):
 		pass
