@@ -51,9 +51,7 @@ class TextMining:
 
     def preprocess_data(self):
         print("..data preprocessing")
-        preprocessor = Preprocessor(self.train_df, self.classes)
-        self.train_df = preprocessor.text_stemming(self.train_df)
-
+        self.train_df = Preprocessor().text_stemming(self.train_df)
         proccessed_csv_file =  self.datasets + '/' + 'proccessed_train_set.csv'
         preprocessor.save_to_csv(proccessed_csv_file)
 

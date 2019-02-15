@@ -29,19 +29,6 @@ class Classifier:
 		pass
 
 
-	def PrintEvaluationFile(self, accuracy_values, path):
-		
-		with open(path + 'EvaluationMetric_10fold.csv', 'w') as f:
-			sep = '\t'
-			f.write('Accuracy')
-			for accuracy_value in zip(*accuracy_values):
-				f.write(sep)
-				for x in accuracy_value:
-					f.write(str(round(x,3)))
-					f.write(sep)
-				f.write('\n')
-
-
 	def PrintPredictorFile(name, predicted_values, Ids, path):		
 		
 		with open(path + name + '_testSet_categories.csv', 'w') as f:
@@ -56,3 +43,35 @@ class Classifier:
 				f.write( sep )
 				f.write( predicted_value )
 				f.write('\n')
+
+
+	def PrintEvaluationFile(self, name, scores, accuracies, path):
+		
+		with open(path + name + 'EvaluationMetric_10fold.csv', 'w') as f:
+			sep = '\t'
+
+			avg_accuracy = np.mean(accuracy_array)
+			f.write('Average Accuracy')
+			f.write(sep)
+			f.write(str(round(avg_accuracy, 3)))
+			f.write('\n')
+			avg_score = np.mean(score_array, axis=0)
+
+			print(avg_score)
+			print(avg_accuracy)
+
+			# Precision
+			precision_row = score_array[0]
+			avg_precision = np.mean(precision_row, axis=0)
+			f.write('Average Precision')
+			f.write(sep)
+			f.write(str(round(avg_precision, 3)))
+			f.write('\n')
+
+			# Recall
+			recall_row = score_array[1]
+			avg_recall = np.mean(recall_row, axis=0)
+			f.write('Average Precision')
+			f.write(sep)
+			f.write(str(round(avg_recall, 3)))
+			f.write('\n')

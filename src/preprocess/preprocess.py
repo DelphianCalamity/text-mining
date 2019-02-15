@@ -11,7 +11,7 @@ import re
 
 class Preprocessor:
 
-    def __init__(self, input_df, classes):
+    def __init__(self, input_df=None, classes=None):
         self.df = input_df
         self.classes = classes
     
@@ -48,8 +48,16 @@ class Preprocessor:
         return train_df
 
     def text_lemmatization(self, train_df):
+        # remove numbers and special characters
         pass
 
-    def save_to_csv(self, path):
 
+    def tokenize_articles(self, X_train):
+
+        tokenized = []
+        for row in X_train:
+            tokenized.append(word_tokenize(row))
+        return tokenized
+
+    def save_to_csv(self, path):
             self.df.to_csv(path_or_buf=path, index=False, sep='\t')
