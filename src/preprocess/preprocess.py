@@ -1,6 +1,7 @@
 from nltk.stem import LancasterStemmer
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords 
 
 import re
 
@@ -51,10 +52,12 @@ class Preprocessor:
         token_words
         lem_sentence = []
 
+        stop_words = set(stopwords.words('english')) 
         # remove numbers and special characters
         rex = re.compile(r'[a-zA-Z]')
         for word in token_words:
-            if rex.match(word):
+
+            if rex.match(word) and not word in stop_words:
                 lem_sentence.append(wordnet_lemmatizer.lemmatize(word, pos="v"))
                 lem_sentence.append(" ")
 

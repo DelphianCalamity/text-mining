@@ -19,7 +19,6 @@ class SupportVectorMachines(Classifier):
         # Add classifier task
         clf = LinearSVC() # TODO: Use a non-linear SVM and  experiment with kernels svm.SVC(kernel='linear', C=1)
         tasks.append(('clf', clf))
-        print(tasks)
         pipeline = Pipeline(tasks)
 
         if not self.kfold : 
