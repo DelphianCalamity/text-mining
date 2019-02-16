@@ -63,14 +63,14 @@ class Preprocessor:
     def text_stemming(self, train_df):
 
         for index, row in train_df.iterrows():
-            train_df.at[index, 'Content'] = self._stemSentence(row['Content'])
+            train_df.at[index, 'Content'] = self.stem_sentence(row['Content'])
             # print(train_df.at[index, 'Content'])
         return train_df
 
     def text_lemmatization(self, train_df):
 
         for index, row in train_df.iterrows():
-            train_df.at[index, 'Content'] = self._lemSentence(row['Content'])
+            train_df.at[index, 'Content'] = self.lem_sentence(row['Content'])
             # print(train_df.at[index, 'Content'])
         return train_df
 

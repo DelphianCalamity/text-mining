@@ -28,10 +28,7 @@ class Classifier:
 
         self.kfold = kfold
 
-        if features == None:
-            self.features = "BoW"
-        else:
-            self.features = features
+        self.features = "BoW" if features is None else features
         self.path = path
         self.tasks = []
 
@@ -81,7 +78,7 @@ class Classifier:
 
         self.PrintEvaluationFile(classifier, score_array, accuracy_array, self.path)
 
-    def run(self):k
+    def run(self):
         pass
 
     def PrintPredictorFile(self, name, predicted_values, Ids, path):

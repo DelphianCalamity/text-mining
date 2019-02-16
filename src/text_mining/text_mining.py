@@ -66,7 +66,8 @@ class TextMining:
         dupDet.detect_duplicates()
 
     def run_classifiers(self):
-        print("..run " + str(self.classification) + " classifier with the selected features: " + str(self.features))
+        features = "Bow" if self.features is None else self.features
+        print("..run " + str(self.classification) + " classifier with the selected features: " + str(features))
 
         if self.classification == 'SVM':
             clf = SupportVectorMachines
