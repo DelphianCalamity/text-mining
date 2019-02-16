@@ -36,7 +36,7 @@ class Classifier:
 
     def populate_features(self):
 
-        if self.features is "W2V":
+        if self.features == "W2V":
             dim = 100
             self.X_train = Preprocessor().tokenize_articles(self.X_train)
             model = gensim.models.Word2Vec(self.X_train, size=dim)
@@ -49,8 +49,8 @@ class Classifier:
             self.tasks.append(('vect', CountVectorizer(stop_words='english')))
             self.tasks.append(('tfidf', TfidfTransformer()))
 
-        if self.features is "SVD":
-            svd = TruncatedSVD(n_components=50, random_state=42)
+        if self.features == "SVD":
+            svd = TruncatedSVD(n_components=300, random_state=42)
             self.tasks.append(('svd', svd))
             self.tasks.append(('print_svd_variance', SvdVariancePrinter(svd)))
 

@@ -50,17 +50,18 @@ class TextMining:
 
     def preprocess_data(self):
         print("..data preprocessing")
-        # self.train_df = Preprocessor().text_stemming(self.train_df)
-        proccessed_csv_file =  self.datasets + '/' + 'proccessed_train_set.csv'
-        self.train_df = Preprocessor().text_lemmatization(self.train_df)
-        
-        corpus = self.train_df['Content'].values
-        vectorizer = TfidfVectorizer(stop_words='english')
-        X = vectorizer.fit_transform(corpus).toarray()
-        print(X.shape)
+        preFilter = Preprocessor(lemmatization=True)
 
-        Preprocessor().save_to_csv(self.train_df, proccessed_csv_file)
-        exit(1)
+        proccessed_csv_file =  self.datasets + '/' + 'proccessed_train_set.csv'
+
+        # remove stop words
+        self.train_df = preFilter.exclude_stop_words(self.train_df)
+
+        # lemmatize
+        # TODO: lemmatize or stemming
+        self.train_df = preFilter.text_lemmatization(self.train_df)
+
+        preFilter.save_to_csv(self.train_df, proccessed_csv_file)
 
     def generate_wordclouds(self):
         print("..generate wordclouds per category of the given dataset")
