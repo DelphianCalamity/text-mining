@@ -33,7 +33,7 @@ class Preprocessor:
 
     # Removes stop words from each trainset entry
     def exclude_stop_words(self, train_df):
-        print(STOPWORDS)
+        # print(STOPWORDS)
         for index, row in train_df.iterrows():
             temp = row['Content'].lower()
             removed = remove_stopwords(temp)

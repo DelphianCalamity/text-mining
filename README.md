@@ -6,7 +6,7 @@
 
 # Requirements
 
-1. Python 2.7
+1. Python 3+
 2. pip
 3. `pip install -r requirements.txt`
 

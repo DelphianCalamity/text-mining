@@ -14,7 +14,7 @@ import gensim
 
 class Classifier:
 
-    def __init__(self, path, train_df, test_file, kfold, features):
+    def __init__(self, path, train_df, test_file, features):
 
         test_df = pd.read_csv(test_file, sep='\t')
 
@@ -27,12 +27,16 @@ class Classifier:
         self.X_test = test_df['Content']
         self.test_ids = test_df['Id']
 
-        self.kfold = kfold
         self.features = features
         self.path = path
         self.tasks = []
+    	# self.classes = self.train_df.Category.unique()
+    
+    def run_kfold(self):
+    	pass
 
-    # self.classes = self.train_df.Category.unique()
+    def run_predict(self):
+    	pass
 
     def populate_features(self):
 
@@ -50,7 +54,7 @@ class Classifier:
             self.tasks.append(('tfidf', TfidfTransformer()))
 
         if self.features == "SVD":
-            svd = TruncatedSVD(n_components=300, random_state=42)
+            svd = TruncatedSVD(n_components=3000, random_state=42)
             self.tasks.append(('svd', svd))
             self.tasks.append(('print_svd_variance', SvdVariancePrinter(svd)))
 
@@ -62,6 +66,8 @@ class Classifier:
         predicted = pipeline.predict(self.X_test)
         predlabels = self.le.inverse_transform(predicted)
         self.PrintPredictorFile(classifier, predlabels, self.test_ids, self.path)
+
+        return None
 
     def k_fold_cv(self, pipeline, classifier):
         score_array = []
@@ -76,12 +82,18 @@ class Classifier:
             predlabels = self.le.inverse_transform(predicted)
             score_array.append(precision_recall_fscore_support(Ylabels, predlabels, average=None))
             accuracy_array.append(accuracy_score(Ylabels, predlabels))
-            # print(metrics.classification_report(Ylabels, predlabels))
 
-        self.PrintEvaluationFile(classifier, score_array, accuracy_array, self.path)
+	        # self.PrintEvaluationFile(classifier, score_array, accuracy_array, self.path)
 
-    def run(self):
-        pass
+        avg_accuracy = np.mean(accuracy_array)
+        precision_row = score_array[0]
+        avg_precision = np.mean(precision_row, axis=0)
+        recall_row = score_array[1]
+        avg_recall = np.mean(recall_row, axis=0)
+
+        print("Accuracy: " + avg_accuracy + "Precision: " + avg_precision + "Recall: " + avg_recall + "\n")
+        return avg_accuracy, avg_precision, avg_recall
+
 
     def PrintPredictorFile(self, name, predicted_values, Ids, path):
 
@@ -98,33 +110,3 @@ class Classifier:
                 f.write(predicted_value)
                 f.write('\n')
 
-    def PrintEvaluationFile(self, name, score_array, accuracy_array, path):
-
-        with open(path + name + 'EvaluationMetric_10fold.csv', 'w') as f:
-            sep = '\t'
-
-            avg_accuracy = np.mean(accuracy_array)
-            f.write('Average Accuracy')
-            f.write(sep)
-            f.write(str(round(avg_accuracy, 3)))
-            f.write('\n')
-            avg_score = np.mean(score_array, axis=0)
-
-            print(avg_score)
-            print(avg_accuracy)
-
-            # Precision
-            precision_row = score_array[0]
-            avg_precision = np.mean(precision_row, axis=0)
-            f.write('Average Precision')
-            f.write(sep)
-            f.write(str(round(avg_precision, 3)))
-            f.write('\n')
-
-            # Recall
-            recall_row = score_array[1]
-            avg_recall = np.mean(recall_row, axis=0)
-            f.write('Average Precision')
-            f.write(sep)
-            f.write(str(round(avg_recall, 3)))
-            f.write('\n')

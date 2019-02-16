@@ -9,19 +9,21 @@ from sklearn.pipeline import Pipeline
 
 class SupportVectorMachines(Classifier):
 
-    def __init__(self, path, train_df, test_file, kfold, features):
-        Classifier.__init__(self, path, train_df, test_file, kfold, features)
+	def __init__(self, path, train_df, test_file, kfold, features):
+		Classifier.__init__(self, path, train_df, test_file, kfold, features)
 
-    def run(self):
+	def run(self):
+		tasks = self.populate_features()
 
-        tasks = self.populate_features()
+		# Add classifier task
+		clf = LinearSVC() # TODO: Use a non-linear SVM and  experiment with kernels svm.SVC(kernel='linear', C=1)
+		tasks.append(('clf', clf))
 
-        # Add classifier task
-        clf = LinearSVC() # TODO: Use a non-linear SVM and  experiment with kernels svm.SVC(kernel='linear', C=1)
-        tasks.append(('clf', clf))
-        pipeline = Pipeline(tasks)
+		return Pipeline(tasks)
 
-        if not self.kfold : 
-            self.predict(pipeline, "SupportVectorMachines")
-        else:
-            self.k_fold_cv(pipeline, "SupportVectorMachines")
+	def run_kfold(self):\
+		pipeline = self.run()
+		return self.k_fold_cv(pipeline)
+
+	def run_predict(self):
+		return self.predict(pipeline, "SupportVectorMachines")

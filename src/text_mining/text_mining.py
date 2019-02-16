@@ -56,12 +56,16 @@ class TextMining:
 
         # remove stop words
         self.train_df = preFilter.exclude_stop_words(self.train_df)
-
         # lemmatize
         # TODO: lemmatize or stemming
-        self.train_df = preFilter.text_lemmatization(self.train_df)
+        self.train_df = preFilter.text_stemming(self.train_df)
 
         preFilter.save_to_csv(self.train_df, proccessed_csv_file)
+
+        # corpus = self.train_df['Content'].values
+        # vectorizer = TfidfVectorizer(stop_words='english')
+        # X = vectorizer.fit_transform(corpus).toarray()
+        # print(X.shape)
 
     def generate_wordclouds(self):
         print("..generate wordclouds per category of the given dataset")
@@ -86,10 +90,15 @@ class TextMining:
         else:
             logging.error('Unknown classifier "%s"', self.classification)
 
-        classifier = clf(self.classification_out_dir, self.train_df, self.csv_test_file, self.kfold, self.features)
-        classifier.run()
+        classifier = clf(self.classification_out_dir, self.train_df, self.csv_test_file, self.features)
+
+        return classifier.run_kfold() if self.kfold else classifier.run_predict()        
+         
 
     def run(self):
+
+        scores = None
+
         if self.preprocess:
             self.preprocess_data()
 
@@ -100,4 +109,8 @@ class TextMining:
             self.find_similar_docs()
 
         if self.classification:
-            self.run_classifiers()
+            scores = self.run_classifiers()
+
+        return scores
+
+
