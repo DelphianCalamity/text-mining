@@ -17,12 +17,5 @@ class MeanEmbeddingVectorizer(object):
                     article.append(self.word2vec[w])
 
             transformed.append(np.mean(article, axis=0))
-
-        # print(np.array(transformed))
+            
         return np.array(transformed)
-
-        # return np.array([
-        #     np.mean([self.word2vec[w] for w in words if w in self.word2vec]
-        #             or [np.zeros(self.dim)], axis=0)
-        #     for words in X
-        # ])

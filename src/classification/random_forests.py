@@ -1,15 +1,6 @@
-import pandas as pd
-import numpy as np
-
 from sklearn.ensemble import RandomForestClassifier
 from classification.classifier import Classifier
-from sklearn.model_selection import KFold
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.decomposition import TruncatedSVD
-
 from sklearn.pipeline import Pipeline
-from sklearn import metrics
 
 
 class RandomForests(Classifier):
@@ -21,7 +12,7 @@ class RandomForests(Classifier):
 
         tasks =  self.populate_features()
 
-        #n_estimators=100, max_depth=2,random_state=0
+        # n_estimators=100, max_depth=2,random_state=0
         clf = RandomForestClassifier()
 
         tasks.append(('clf', clf))

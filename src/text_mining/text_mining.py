@@ -10,13 +10,13 @@ from duplicates.duplicates_detection import *
 
 class TextMining:
 
-    def __init__(self, datasets, outputs, preprocess=False, wordclouds=False, 
-            dupThreshold=None, classification=None, features=None, kfold=False):
+    def __init__(self, datasets, outputs, preprocess=False, wordclouds=False,
+                 dup_threshold=None, classification=None, features=None, kfold=False):
         self.datasets = datasets
         self.outputs = outputs
         self.preprocess = preprocess
         self.wordclouds = wordclouds
-        self.dupThreshold = dupThreshold
+        self.dupThreshold = dup_threshold
         self.classification = classification
         self.features = features
         self.kfold = kfold
@@ -47,13 +47,13 @@ class TextMining:
             if not os.path.exists(self.classification_out_dir):
                 os.makedirs(self.classification_out_dir)
 
-
-
     def preprocess_data(self):
         print("..data preprocessing")
-        self.train_df = Preprocessor().text_stemming(self.train_df)
+        # self.train_df = Preprocessor().text_stemming(self.train_df)
         proccessed_csv_file =  self.datasets + '/' + 'proccessed_train_set.csv'
-        preprocessor.save_to_csv(proccessed_csv_file)
+        
+        self.train_df = Preprocessor().text_lemmatization(self.train_df)
+        Preprocessor().save_to_csv(self.train_df, proccessed_csv_file)
 
     def generate_wordclouds(self):
         print("..generate wordclouds per category of the given dataset")
@@ -79,7 +79,6 @@ class TextMining:
 
         classifier = clf(self.classification_out_dir, self.train_df, self.csv_test_file, self.kfold, self.features)
         classifier.run()
-
 
     def run(self):
         if self.preprocess:

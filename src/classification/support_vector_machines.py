@@ -1,22 +1,12 @@
-import pandas as pd
-import numpy as np
 
 from preprocess.preprocess import *
 from classification.meanEmbeddingVectorizer import *
 
 from sklearn.svm import LinearSVC
 from classification.classifier import Classifier
-from sklearn.model_selection import KFold
-from sklearn.metrics import precision_recall_fscore_support
-from sklearn.metrics import accuracy_score
-from sklearn import metrics
 
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.decomposition import TruncatedSVD
 
 from sklearn.pipeline import Pipeline
-import gensim
 
 
 class SupportVectorMachines(Classifier):
