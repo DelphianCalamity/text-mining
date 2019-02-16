@@ -62,7 +62,7 @@ class Classifier:
         pipeline.fit(self.X_train, self.Y_train)
         predicted = pipeline.predict(self.X_test)
         predlabels = self.le.inverse_transform(predicted)
-        Classifier.PrintPredictorFile(classifier, predlabels, self.test_ids, self.path)
+        self.PrintPredictorFile(classifier, predlabels, self.test_ids, self.path)
 
     def k_fold_cv(self, pipeline, classifier):
         score_array = []
@@ -79,12 +79,12 @@ class Classifier:
             accuracy_array.append(accuracy_score(Ylabels, predlabels))
             # print(metrics.classification_report(Ylabels, predlabels))
 
-        PrintEvaluationFile(classifier, score_array, accuracy_array, path)
+        self.PrintEvaluationFile(classifier, score_array, accuracy_array, path)
 
     def run(self):
         pass
 
-    def PrintPredictorFile(name, predicted_values, Ids, path):
+    def PrintPredictorFile(self, name, predicted_values, Ids, path):
 
         with open(path + name + '_testSet_categories.csv', 'w') as f:
             sep = '\t'
