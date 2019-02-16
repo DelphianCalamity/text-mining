@@ -7,13 +7,14 @@ from sklearn.metrics import accuracy_score
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.decomposition import TruncatedSVD
+from preprocess.preprocess import *
+from classification.svd_variance import *
 import gensim
 
-from preprocess.preprocess import *
 
 class Classifier:
 
-    def __init__(self, path, train_df, test_file, kfold, features="BoW"):
+    def __init__(self, path, train_df, test_file, kfold, features):
 
         test_df = pd.read_csv(test_file, sep='\t')
 
@@ -27,8 +28,7 @@ class Classifier:
         self.test_ids = test_df['Id']
 
         self.kfold = kfold
-
-        self.features = "BoW" if features is None else features
+        self.features = features
         self.path = path
         self.tasks = []
 
@@ -45,12 +45,14 @@ class Classifier:
             # print(self.X_train)
             if not self.kfold:
                 self.X_test = Preprocessor().tokenize_articles(self.X_test)
-        elif self.features is "BoW":
+        else:
             self.tasks.append(('vect', CountVectorizer(stop_words='english')))
             self.tasks.append(('tfidf', TfidfTransformer()))
-        elif self.features is "SVD":
+
+        if self.features is "SVD":
             svd = TruncatedSVD(n_components=50, random_state=42)
             self.tasks.append(('svd', svd))
+            self.tasks.append(('print_svd_variance', SvdVariancePrinter(svd)))
 
         return self.tasks
 

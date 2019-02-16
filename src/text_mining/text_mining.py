@@ -8,6 +8,7 @@ from classification.random_forests import *
 from word_cloud.word_cloud import *
 from duplicates.duplicates_detection import *
 
+
 class TextMining:
 
     def __init__(self, datasets, outputs, preprocess=False, wordclouds=False,

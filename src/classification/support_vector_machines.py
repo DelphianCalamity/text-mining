@@ -1,6 +1,5 @@
 from preprocess.preprocess import *
 from classification.meanEmbeddingVectorizer import *
-
 from sklearn.svm import LinearSVC
 from classification.classifier import Classifier
 
@@ -12,7 +11,7 @@ class SupportVectorMachines(Classifier):
 
     def __init__(self, path, train_df, test_file, kfold, features):
         Classifier.__init__(self, path, train_df, test_file, kfold, features)
-	
+
     def run(self):
 
         tasks = self.populate_features()
@@ -20,7 +19,7 @@ class SupportVectorMachines(Classifier):
         # Add classifier task
         clf = LinearSVC() # TODO: Use a non-linear SVM and  experiment with kernels svm.SVC(kernel='linear', C=1)
         tasks.append(('clf', clf))
-            
+        print(tasks)
         pipeline = Pipeline(tasks)
 
         if not self.kfold : 

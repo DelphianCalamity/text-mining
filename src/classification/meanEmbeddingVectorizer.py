@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class MeanEmbeddingVectorizer(object):
     def __init__(self, word2vec, dim):
         self.word2vec = word2vec
@@ -17,5 +18,5 @@ class MeanEmbeddingVectorizer(object):
                     article.append(self.word2vec[w])
 
             transformed.append(np.mean(article, axis=0))
-            
+
         return np.array(transformed)

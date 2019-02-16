@@ -22,13 +22,13 @@ class DuplicateDetection:
     # A naive algorithm for detecting duplicate documents
     def detect_duplicates(self):
 
+        similarities = {}
         for label in self.classes:
 
             corpus = self.train_df.loc[self.train_df['Category'] == label]['Content'].values
 
             vectorizer = TfidfVectorizer(stop_words='english')
             X = vectorizer.fit_transform(corpus).toarray()
-            similarities = {}
 
             print(X.shape)
 
@@ -38,7 +38,7 @@ class DuplicateDetection:
                         j = X[idx_j]
                         if j.any(axis=0):
                             similarity = self.cosine_similarity(i, j)
-                            if (similarity >= self.threshold):
+                            if similarity >= self.threshold:
                                 similarities[(idx_i,idx_j)] = similarity
 
         with open(self.path + "duplicatePairs.csv", "w") as f:
