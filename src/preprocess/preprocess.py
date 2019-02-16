@@ -4,6 +4,8 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords 
 
 from gensim.parsing.preprocessing import remove_stopwords
+from gensim.parsing.preprocessing import STOPWORDS
+
 
 import re
 
@@ -31,6 +33,7 @@ class Preprocessor:
 
     # Removes stop words from each trainset entry
     def exclude_stop_words(self, train_df):
+        print(STOPWORDS)
         for index, row in train_df.iterrows():
             temp = row['Content'].lower()
             removed = remove_stopwords(temp)
@@ -40,7 +43,7 @@ class Preprocessor:
     def stem_sentence(self, sentence):
 
         # remove numbers and special characters
-        rex = re.compile(r'[a-zA-Z]')
+        rex = re.compile(r'[a-z]')
 
         # tokenize and stem
         token_words = word_tokenize(sentence)
@@ -51,11 +54,11 @@ class Preprocessor:
     def lem_sentence(self, sentence):
 
         # remove numbers and special characters
-        rex = re.compile(r'[a-zA-Z]')
+        rex = re.compile(r'[a-z]')
 
         # tokenize and lemmatize
         token_words = word_tokenize(sentence)
-        lem_sentence = [self.lemmatizer.lemmatize(word, pos="v") for word in token_words if rex.match(word)]
+        lem_sentence = [self.lemmatizer.lemmatize(word, pos="v") for word in token_words if rex.match(word) and word != 'n\'t']
 
         return " ".join(lem_sentence)
 
