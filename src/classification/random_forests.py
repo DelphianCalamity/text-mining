@@ -10,7 +10,8 @@ class RandomForests(Classifier):
 
     def run(self):
 
-        tasks =  self.populate_features()
+        tasks = self.populate_features()
+        print(tasks)
 
         # n_estimators=100, max_depth=2,random_state=0
         clf = RandomForestClassifier()

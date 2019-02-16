@@ -15,7 +15,7 @@ def make_args_parser():
             help='Generate word clouds for each category')
     parser.add_argument('--duplicates', dest='threshold', type=float, default=None,
             help='Identify similar documents within above a certain theta')
-    parser.add_argument('--classification', choices=['SVM', 'RF', '_KNN_'],
+    parser.add_argument('--classification', choices=['SVM', 'RF'],
             help='Runs default classifiers with 10-fold cross validation: Random Forest and SVM')
     parser.add_argument('--features', choices=['BoW', 'SVD', 'W2V'], default = None,
             help='Define features')

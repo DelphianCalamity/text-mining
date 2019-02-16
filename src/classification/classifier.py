@@ -12,7 +12,7 @@ import gensim
 
 class Classifier:
 
-    def __init__(self, path, train_df, test_file, kfold, features):
+    def __init__(self, path, train_df, test_file, kfold, features="BoW"):
 
         test_df = pd.read_csv(test_file, sep='\t')
 
@@ -39,18 +39,18 @@ class Classifier:
             self.X_train = Preprocessor().tokenize_articles(self.X_train)
             model = gensim.models.Word2Vec(self.X_train, size=dim)
             w2v = dict(zip(model.wv.index2word, model.wv.syn0))
-            tasks.append(('vect', MeanEmbeddingVectorizer(w2v, dim)))
+            self.tasks.append(('vect', MeanEmbeddingVectorizer(w2v, dim)))
             # print(self.X_train)
-
             if not self.kfold:
                 self.X_test = Preprocessor().tokenize_articles(self.X_test)
-            else:  # BoW is the default
-                tasks.append(('vect', CountVectorizer(stop_words='english')))
-                tasks.append(('tfidf', TfidfTransformer()))
+        elif self.features == "BoW":
+            self.tasks.append(('vect', CountVectorizer(stop_words='english')))
+            self.tasks.append(('tfidf', TfidfTransformer()))
+        elif self.features == "SVD":
+            svd = TruncatedSVD(n_components=50, random_state=42)
+            self.tasks.append(('svd', svd))
 
-            if self.features == "SVD":
-                svd = TruncatedSVD(n_components=50, random_state=42)
-                tasks.append(('svd', svd))
+        return self.tasks
 
     def predict(self, pipeline, classifier):
 
