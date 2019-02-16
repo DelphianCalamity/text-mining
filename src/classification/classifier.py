@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.decomposition import TruncatedSVD
 import gensim
 
+from preprocess.preprocess import *
 
 class Classifier:
 
@@ -26,7 +27,11 @@ class Classifier:
         self.test_ids = test_df['Id']
 
         self.kfold = kfold
-        self.features = features
+
+        if features == None:
+            self.features = "BoW"
+        else:
+            self.features = features
         self.path = path
         self.tasks = []
 
@@ -34,7 +39,7 @@ class Classifier:
 
     def populate_features(self):
 
-        if self.features == "W2V":
+        if self.features is "W2V":
             dim = 100
             self.X_train = Preprocessor().tokenize_articles(self.X_train)
             model = gensim.models.Word2Vec(self.X_train, size=dim)
@@ -43,10 +48,10 @@ class Classifier:
             # print(self.X_train)
             if not self.kfold:
                 self.X_test = Preprocessor().tokenize_articles(self.X_test)
-        elif self.features == "BoW":
+        elif self.features is "BoW":
             self.tasks.append(('vect', CountVectorizer(stop_words='english')))
             self.tasks.append(('tfidf', TfidfTransformer()))
-        elif self.features == "SVD":
+        elif self.features is "SVD":
             svd = TruncatedSVD(n_components=50, random_state=42)
             self.tasks.append(('svd', svd))
 
