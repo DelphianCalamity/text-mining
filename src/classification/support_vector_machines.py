@@ -1,4 +1,3 @@
-
 from preprocess.preprocess import *
 from classification.meanEmbeddingVectorizer import *
 
@@ -19,7 +18,7 @@ class SupportVectorMachines(Classifier):
         tasks = self.populate_features()
 
         # Add classifier task
-        clf = LinearSVC() 		# TODO: Use a non-linear SVM and  experiment with kernels svm.SVC(kernel='linear', C=1)
+        clf = LinearSVC() # TODO: Use a non-linear SVM and  experiment with kernels svm.SVC(kernel='linear', C=1)
         tasks.append(('clf', clf))
             
         pipeline = Pipeline(tasks)

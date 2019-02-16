@@ -79,9 +79,9 @@ class Classifier:
             accuracy_array.append(accuracy_score(Ylabels, predlabels))
             # print(metrics.classification_report(Ylabels, predlabels))
 
-        self.PrintEvaluationFile(classifier, score_array, accuracy_array, path)
+        self.PrintEvaluationFile(classifier, score_array, accuracy_array, self.path)
 
-    def run(self):
+    def run(self):k
         pass
 
     def PrintPredictorFile(self, name, predicted_values, Ids, path):
