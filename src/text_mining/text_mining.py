@@ -31,8 +31,6 @@ class TextMining:
             self.csv_train_file = datasets + '/' + 'train_set.csv'
             self.csv_test_file = datasets + '/' + 'test_set.csv'
         
-        print(self.csv_train_file)
-        print(self.csv_test_file)
         self.train_df = pd.read_csv(self.csv_train_file, sep='\t')
         self.test_df = pd.read_csv(self.csv_test_file, sep='\t') if not self.kfold else None
 
@@ -65,7 +63,7 @@ class TextMining:
         # Preprocess training set
         processed_csv_train =  self.datasets + '/' + 'processed_train_set.csv'
 
-        
+
         if not self.cache:
             if self.beat:
                 print('Preprocess title')
@@ -124,7 +122,7 @@ class TextMining:
 
     def beat_benchmark(self):
         pass
-         
+
     def run(self):
 
         scores = None
