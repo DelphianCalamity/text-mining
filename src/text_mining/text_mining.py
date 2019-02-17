@@ -22,7 +22,8 @@ class TextMining:
         self.features = features
         self.kfold = kfold
 
-        self.csv_train_file = datasets + '/' + 'processed_train_set_lemstem.csv'
+        #self.csv_train_file = datasets + '/' + 'processed_train_set_lemstem.csv'
+        self.csv_train_file = datasets + '/' + 'train_set.csv'
         self.csv_test_file = datasets + '/' + 'test_set.csv'
         
         self.train_df = pd.read_csv(self.csv_train_file, sep='\t')

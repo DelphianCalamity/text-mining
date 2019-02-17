@@ -24,6 +24,7 @@ class Preprocessor:
         self.df = input_df
         self.classes = classes
         self.transform = transformation
+        self.stemmer = LancasterStemmer() if self.transform == "stemming" else None
 
     # Joins all articles of a given category into a single string
     def _join_text(self, label):
@@ -44,13 +45,12 @@ class Preprocessor:
 
     def stem_sentence(self, sentence):
 
-        stemmer = LancasterStemmer()
         # remove numbers and special characters
         rex = re.compile(r'[a-z]')
         # tokenize and stem
         stem_sentence = []
         token_words = word_tokenize(sentence)
-        stem_sentence = [stemmer.stem(word) for word in token_words if rex.match(word)]
+        stem_sentence = [self.stemmer.stem(word) for word in token_words if rex.match(word)]
 
         return " ".join(stem_sentence)
 
