@@ -3,9 +3,10 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords 
 
+import pandas as pd
+
 from gensim.parsing.preprocessing import remove_stopwords
 from gensim.parsing.preprocessing import STOPWORDS
-
 
 import re
 import spacy
@@ -47,6 +48,8 @@ class Preprocessor:
         # remove numbers and special characters
         rex = re.compile(r'[a-z]')
         # tokenize and stem
+        # print(sentence, end="\n\n")
+        stem_sentence = []
         token_words = word_tokenize(sentence)
         stem_sentence = [stemmer.stem(word) for word in token_words if rex.match(word)]
 
@@ -71,7 +74,11 @@ class Preprocessor:
             raise Exception("Unknown text transformation " + self.transform)
 
         for index, row in train_df.iterrows():
-            train_df.at[index, 'Content'] = transform(row['Content'])
+                train_df.at[index, 'Content'] = transform(row['Content'])
+
+        # Remove rows with "null" content
+        train_df = train_df[pd.notnull(train_df['Content'])]
+        
         return train_df
 
 

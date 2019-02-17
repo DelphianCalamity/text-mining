@@ -30,12 +30,6 @@ class Classifier:
         self.tasks = []
     	# self.classes = self.train_df.Category.unique()
     
-    def run_kfold(self):
-    	pass
-
-    def run_predict(self):
-    	pass
-
     def populate_features(self):
 
         if self.features == "W2V":
@@ -52,11 +46,17 @@ class Classifier:
             self.tasks.append(('tfidf', TfidfTransformer()))
 
         if self.features == "SVD":
-            svd = TruncatedSVD(n_components=3000, random_state=42)
+            svd = TruncatedSVD(n_components=3500)
             self.tasks.append(('svd', svd))
             self.tasks.append(('print_svd_variance', SvdVariancePrinter(svd)))
 
         return self.tasks
+
+    def run_kfold(self):
+    	pass
+
+    def run_predict(self):
+    	pass
 
     def predict(self, pipeline, classifier):
 
@@ -64,7 +64,6 @@ class Classifier:
         predicted = pipeline.predict(self.X_test)
         predlabels = self.le.inverse_transform(predicted)
         self.PrintPredictorFile(classifier, predlabels, self.test_ids, self.path)
-
         return None
 
     def k_fold_cv(self, pipeline, classifier):
@@ -80,8 +79,6 @@ class Classifier:
             predlabels = self.le.inverse_transform(predicted)
             score_array.append(precision_recall_fscore_support(Ylabels, predlabels, average=None))
             accuracy_array.append(accuracy_score(Ylabels, predlabels))
-
-	        # self.PrintEvaluationFile(classifier, score_array, accuracy_array, self.path)
 
         avg_accuracy = np.mean(accuracy_array)
         precision_row = score_array[0]

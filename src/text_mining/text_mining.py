@@ -22,7 +22,7 @@ class TextMining:
         self.features = features
         self.kfold = kfold
 
-        self.csv_train_file = datasets + '/' + 'train_set.csv'
+        self.csv_train_file = datasets + '/' + 'processed_train_set_lemstem.csv'
         self.csv_test_file = datasets + '/' + 'test_set.csv'
         
         self.train_df = pd.read_csv(self.csv_train_file, sep='\t')
@@ -55,23 +55,23 @@ class TextMining:
         preFilter = Preprocessor(transformation="lemmatization")
 
         # TODO: lemmatize or stemming
-        # Preprocess training set: remove stop words & lemmatize 
-        proccessed_csv_train =  self.datasets + '/' + 'proccessed_train_set.csv'
+        # Preprocess training set
+        processed_csv_train =  self.datasets + '/' + 'processed_train_set.csv'
         self.train_df = preFilter.text_transform(self.train_df)
         self.train_df = preFilter.exclude_stop_words(self.train_df)
-        preFilter.save_to_csv(self.train_df, proccessed_csv_train)
+        preFilter.save_to_csv(self.train_df, processed_csv_train)
 
-        # if not self.kfold:  # Preprocess testing set
-        #     proccessed_csv_test =  self.datasets + '/' + 'proccessed_test_set.csv'
-        #     self.test_df = preFilter.exclude_stop_words(self.test_df)
-        #     self.test_df = preFilter.text_transform(self.test_df)
-        #     preFilter.save_to_csv(self.test_df, proccessed_csv_test)
+        if not self.kfold:  # Preprocess testing set
+            processed_csv_test =  self.datasets + '/' + 'processed_test_set.csv'
+            self.test_df = preFilter.exclude_stop_words(self.test_df)
+            self.test_df = preFilter.text_transform(self.test_df)
+            preFilter.save_to_csv(self.test_df, processed_csv_test)
 
-        corpus = self.train_df['Content'].values
-        vectorizer = TfidfVectorizer(stop_words='english')
-        X = vectorizer.fit_transform(corpus).toarray()
-        print(X.shape)
-        exit(1)
+        # corpus = self.train_df['Content'].values
+        # vectorizer = TfidfVectorizer(stop_words='english')
+        # X = vectorizer.fit_transform(corpus).toarray()
+        # print(X.shape)
+        # exit(1)
 
     def generate_wordclouds(self):
         print("..generate wordclouds per category of the given dataset")
@@ -84,6 +84,7 @@ class TextMining:
         dupDet.detect_duplicates()
 
     def run_classifiers(self):
+
         features = "Bow" if self.features is None else self.features
         print("..run " + str(self.classification) + " classifier with the selected features: " + str(features))
 

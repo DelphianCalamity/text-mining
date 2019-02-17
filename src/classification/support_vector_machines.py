@@ -8,21 +8,20 @@ from sklearn.pipeline import Pipeline
 
 class SupportVectorMachines(Classifier):
 
-	def __init__(self, path, train_df, test_file, kfold, features):
-		Classifier.__init__(self, path, train_df, test_file, kfold, features)
+	def __init__(self, path, train_df, test_df, features):
+		Classifier.__init__(self, path, train_df, test_df, features)
 
-	def run(self):	
-		tasks = self.populate_features()
-
+	def populate_features(self):	
+		tasks = Classifier.populate_features(self)
 		# Add classifier task
-		clf = LinearSVC() # TODO: Use a non-linear SVM and  experiment with kernels svm.SVC(kernel='linear', C=1)
-		tasks.append(('clf', clf))
-
-		return Pipeline(tasks)
+		# TODO: Use a non-linear SVM and  experiment with kernels svm.SVC(kernel='linear', C=1)
+		tasks.append(('clf', LinearSVC()))
+		self.pipeline = Pipeline(tasks)
 
 	def run_kfold(self):
-		pipeline = self.run()
-		return self.k_fold_cv(pipeline)
+		self.populate_features()
+		return self.k_fold_cv(self.pipeline)
 
 	def run_predict(self):
-		return self.predict(pipeline, "SupportVectorMachines")
+		self.populate_features()
+		return self.predict(self.pipeline, "SupportVectorMachines")
