@@ -22,9 +22,12 @@ def make_args_parser():
                         help='Define features')
     parser.add_argument('--kfold', action='store_true',
                         help='Evaluate and report the performance of each method using 10-fold Cross Validation')
+    parser.add_argument('--beat', action='store_true', default=False,
+                        help='Beat the benchmark setup for classification')
+    parser.add_argument('--cache', action='store_true',
+                        default=False, help='Use already preprocessed data')
 
     return parser.parse_args()
-
 
 def print_config(args):
     print("Running with the following configuration")
@@ -38,8 +41,7 @@ def main():
     args = make_args_parser()
     print_config(args)
     
-    text = TextMining(args.datasets, args.outputs, args.preprocess, args.wordclouds, 
-            args.threshold, args.classification, args.features, args.kfold)
+    text = TextMining(args.datasets, args.outputs, args.preprocess, args.wordclouds, args.threshold, args.classification, args.features, args.kfold, args.beat, args.cache)
     
     text.run()
 
