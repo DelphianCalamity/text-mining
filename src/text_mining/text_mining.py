@@ -4,6 +4,7 @@ import os
 
 from classification.support_vector_machines import *
 from classification.random_forests import *
+from classification.custom_classifier import *
 
 from word_cloud.word_cloud import *
 from duplicates.duplicates_detection import *
@@ -122,15 +123,25 @@ class TextMining:
         classifier = clf(self.classification_out_dir, self.train_df, self.test_df, self.features)
         return classifier.run_kfold() if self.kfold else classifier.run_predict()        
 
-    def beat_benchmark(self):
+    def _concat(self):
         pass
-         
+
+    def beat_benchmark(self):
+        print('...beat the benchmark pass')
+
+        # concat title X times to the content of the data
+        self._concat()
+
+        # run custom classifier
+        classifier = CustomClassifier(self.classification_out_dir, self.train_df, self.test_df, self.features)
+        
     def run(self):
 
         scores = None
 
-        if self.preprocess:
-            self.preprocess_data()
+        if not self.cache:
+            if self.preprocess:
+                self.preprocess_data()
 
         if self.wordclouds:
             self.generate_wordclouds()
@@ -138,8 +149,9 @@ class TextMining:
         if self.dupThreshold:
             self.find_similar_docs()
 
-        if self.classification:
-            scores = self.run_classifiers()
+        if not self.beat:
+            if self.classification:
+                scores = self.run_classifiers()
 
         if self.beat:
             self.beat_benchmark()
