@@ -1,5 +1,4 @@
 from preprocess.preprocess import *
-from classification.meanEmbeddingVectorizer import *
 from sklearn.ensemble import RandomForestClassifier
 from classification.classifier import Classifier
 
@@ -14,10 +13,7 @@ class RandomForests(Classifier):
 
 	def populate_features(self):    
 		tasks = Classifier.populate_features(self)
-		# Add classifier task
-		# n_estimators=100, max_depth=2,random_state=0
-
-		tasks.append(('clf', RandomForestClassifier()))
+		tasks.append(('clf', RandomForestClassifier(n_estimators = 100, criterion = 'entropy')))
 		self.pipeline = Pipeline(tasks)
 
 	def run_kfold(self):

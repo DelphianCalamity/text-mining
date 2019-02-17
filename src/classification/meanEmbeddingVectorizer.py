@@ -1,4 +1,5 @@
 import numpy as np
+from preprocess.preprocess import *
 
 
 class MeanEmbeddingVectorizer(object):
@@ -11,6 +12,8 @@ class MeanEmbeddingVectorizer(object):
 
     def transform(self, X):
         transformed = []
+
+        X = Preprocessor().tokenize_articles(X)
         for words in X:
             article = [np.zeros(self.dim)]
             for w in words:
