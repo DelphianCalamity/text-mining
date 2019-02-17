@@ -8,6 +8,7 @@ from gensim.parsing.preprocessing import STOPWORDS
 
 
 import re
+import spacy
 import logging
 
 """
@@ -54,15 +55,10 @@ class Preprocessor:
 
     def lem_sentence(self, sentence):
 
-        lemmatizer = WordNetLemmatizer()
-        # remove numbers and special characters
         rex = re.compile(r'[a-z]')
-        # tokenize and lemmatize
-        token_words = word_tokenize(sentence)
-        lem_sentence = [lemmatizer.lemmatize(word, pos="v") for word in token_words if rex.match(word) and word != 'n\'t']
-
-        return " ".join(lem_sentence)
-
+        nlp = spacy.load('en_core_web_sm')
+        doc = nlp(sentence)
+        return " ".join([word.lemma_ for word in doc if rex.match(word.lemma_)])
 
     def text_transform(self, train_df):
 

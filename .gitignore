@@ -109,3 +109,11 @@ src/outputs/wordcloud_out_dir/Football_wordcloud.png
 src/outputs/wordcloud_out_dir/Politics_wordcloud.png
 src/outputs/wordcloud_out_dir/Technology_wordcloud.png
 datasets/proccessed_train_set.csv
+src/outputs/classification_out_dir/EvaluationMetric_10fold.csv
+src/outputs/classification_out_dir/SupportVectorMachines_testSet_categories.csv
+.idea/inspectionProfiles/Project_Default.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/text-mining.iml
+.idea/vcs.xml
+.idea/workspace.xml

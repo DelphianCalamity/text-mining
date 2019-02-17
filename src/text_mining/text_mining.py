@@ -52,25 +52,26 @@ class TextMining:
 
     def preprocess_data(self):
         print("..data preprocessing")
-        preFilter = Preprocessor(transformation="stemming")
+        preFilter = Preprocessor(transformation="lemmatization")
 
         # TODO: lemmatize or stemming
         # Preprocess training set: remove stop words & lemmatize 
         proccessed_csv_train =  self.datasets + '/' + 'proccessed_train_set.csv'
-        self.train_df = preFilter.exclude_stop_words(self.train_df)
         self.train_df = preFilter.text_transform(self.train_df)
+        self.train_df = preFilter.exclude_stop_words(self.train_df)
         preFilter.save_to_csv(self.train_df, proccessed_csv_train)
 
-        if not self.kfold:  # Preprocess testing set
-            proccessed_csv_test =  self.datasets + '/' + 'proccessed_test_set.csv'
-            self.test_df = preFilter.exclude_stop_words(self.test_df)
-            self.test_df = preFilter.text_transform(self.test_df)
-            preFilter.save_to_csv(self.test_df, proccessed_csv_test)
+        # if not self.kfold:  # Preprocess testing set
+        #     proccessed_csv_test =  self.datasets + '/' + 'proccessed_test_set.csv'
+        #     self.test_df = preFilter.exclude_stop_words(self.test_df)
+        #     self.test_df = preFilter.text_transform(self.test_df)
+        #     preFilter.save_to_csv(self.test_df, proccessed_csv_test)
 
-        # corpus = self.train_df['Content'].values
-        # vectorizer = TfidfVectorizer(stop_words='english')
-        # X = vectorizer.fit_transform(corpus).toarray()
-        # print(X.shape)
+        corpus = self.train_df['Content'].values
+        vectorizer = TfidfVectorizer(stop_words='english')
+        X = vectorizer.fit_transform(corpus).toarray()
+        print(X.shape)
+        exit(1)
 
     def generate_wordclouds(self):
         print("..generate wordclouds per category of the given dataset")
@@ -98,7 +99,6 @@ class TextMining:
         classifier = clf(self.classification_out_dir, self.train_df, self.test_df, self.features)
         return classifier.run_kfold() if self.kfold else classifier.run_predict()        
          
-
     def run(self):
 
         scores = None

@@ -3,4 +3,5 @@ numpy
 sklearn
 wordcloud
 nltk
+spacy
 gensim
