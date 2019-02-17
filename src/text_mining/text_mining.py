@@ -26,6 +26,8 @@ class TextMining:
         self.csv_test_file = datasets + '/' + 'test_set.csv'
         
         self.train_df = pd.read_csv(self.csv_train_file, sep='\t')
+        self.test_df = pd.read_csv(self.csv_test_file, sep='\t') if not self.kfold else None
+
         self.classes = self.train_df.Category.unique()
 
         # define output directory names
@@ -50,17 +52,20 @@ class TextMining:
 
     def preprocess_data(self):
         print("..data preprocessing")
-        preFilter = Preprocessor(lemmatization=True)
+        preFilter = Preprocessor(transformation="stemming")
 
-        proccessed_csv_file =  self.datasets + '/' + 'proccessed_train_set.csv'
-
-        # remove stop words
-        self.train_df = preFilter.exclude_stop_words(self.train_df)
-        # lemmatize
         # TODO: lemmatize or stemming
-        self.train_df = preFilter.text_stemming(self.train_df)
+        # Preprocess training set: remove stop words & lemmatize 
+        proccessed_csv_train =  self.datasets + '/' + 'proccessed_train_set.csv'
+        self.train_df = preFilter.exclude_stop_words(self.train_df)
+        self.train_df = preFilter.text_transform(self.train_df)
+        preFilter.save_to_csv(self.train_df, proccessed_csv_train)
 
-        preFilter.save_to_csv(self.train_df, proccessed_csv_file)
+        if not self.kfold:  # Preprocess testing set
+            proccessed_csv_test =  self.datasets + '/' + 'proccessed_test_set.csv'
+            self.test_df = preFilter.exclude_stop_words(self.test_df)
+            self.test_df = preFilter.text_transform(self.test_df)
+            preFilter.save_to_csv(self.test_df, proccessed_csv_test)
 
         # corpus = self.train_df['Content'].values
         # vectorizer = TfidfVectorizer(stop_words='english')
@@ -90,8 +95,7 @@ class TextMining:
         else:
             logging.error('Unknown classifier "%s"', self.classification)
 
-        classifier = clf(self.classification_out_dir, self.train_df, self.csv_test_file, self.features)
-
+        classifier = clf(self.classification_out_dir, self.train_df, self.test_df, self.features)
         return classifier.run_kfold() if self.kfold else classifier.run_predict()        
          
 

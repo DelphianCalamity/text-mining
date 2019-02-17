@@ -3,7 +3,6 @@ from classification.meanEmbeddingVectorizer import *
 from sklearn.svm import LinearSVC
 from classification.classifier import Classifier
 
-
 from sklearn.pipeline import Pipeline
 
 
@@ -12,7 +11,7 @@ class SupportVectorMachines(Classifier):
 	def __init__(self, path, train_df, test_file, kfold, features):
 		Classifier.__init__(self, path, train_df, test_file, kfold, features)
 
-	def run(self):
+	def run(self):	
 		tasks = self.populate_features()
 
 		# Add classifier task
@@ -21,7 +20,7 @@ class SupportVectorMachines(Classifier):
 
 		return Pipeline(tasks)
 
-	def run_kfold(self):\
+	def run_kfold(self):
 		pipeline = self.run()
 		return self.k_fold_cv(pipeline)
 

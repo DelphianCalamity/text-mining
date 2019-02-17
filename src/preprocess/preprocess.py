@@ -8,6 +8,7 @@ from gensim.parsing.preprocessing import STOPWORDS
 
 
 import re
+import logging
 
 """
     Preprocessor class is the base class for preprocessing the input texts
@@ -17,11 +18,10 @@ import re
 
 class Preprocessor:
 
-    def __init__(self, input_df=None, classes=None, stemming=None, lemmatization=None):
+    def __init__(self, input_df=None, classes=None, transformation="lemmatization"):
         self.df = input_df
         self.classes = classes
-        self.stemmer = None if stemming == None else LancasterStemmer()
-        self.lemmatizer = None if lemmatization == None else WordNetLemmatizer()
+        self.transform = transformation
 
     # Joins all articles of a given category into a single string
     def _join_text(self, label):
@@ -42,37 +42,42 @@ class Preprocessor:
 
     def stem_sentence(self, sentence):
 
+        stemmer = LancasterStemmer()
         # remove numbers and special characters
         rex = re.compile(r'[a-z]')
-
         # tokenize and stem
         token_words = word_tokenize(sentence)
-        stem_sentence = [self.stemmer.stem(word) for word in token_words if rex.match(word)]
+        stem_sentence = [stemmer.stem(word) for word in token_words if rex.match(word)]
 
         return " ".join(stem_sentence)
 
+
     def lem_sentence(self, sentence):
 
+        lemmatizer = WordNetLemmatizer()
         # remove numbers and special characters
         rex = re.compile(r'[a-z]')
-
         # tokenize and lemmatize
         token_words = word_tokenize(sentence)
-        lem_sentence = [self.lemmatizer.lemmatize(word, pos="v") for word in token_words if rex.match(word) and word != 'n\'t']
+        lem_sentence = [lemmatizer.lemmatize(word, pos="v") for word in token_words if rex.match(word) and word != 'n\'t']
 
         return " ".join(lem_sentence)
 
-    def text_stemming(self, train_df):
+
+    def text_transform(self, train_df):
+
+        if self.transform == "lemmatization":
+            transform = self.lem_sentence 
+        elif self.transform == "stemming":
+            transform = self.stem_sentence
+        else:
+            logging.error('Unknown text transformation "%s"', self.transform)
+            raise Exception("Unknown text transformation " + self.transform)
 
         for index, row in train_df.iterrows():
-            train_df.at[index, 'Content'] = self.stem_sentence(row['Content'])
+            train_df.at[index, 'Content'] = transform(row['Content'])
         return train_df
 
-    def text_lemmatization(self, train_df):
-
-        for index, row in train_df.iterrows():
-            train_df.at[index, 'Content'] = self.lem_sentence(row['Content'])
-        return train_df
 
     def tokenize_articles(self, X_train):
         tokenized = []

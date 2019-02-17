@@ -14,9 +14,7 @@ import gensim
 
 class Classifier:
 
-    def __init__(self, path, train_df, test_file, features):
-
-        test_df = pd.read_csv(test_file, sep='\t')
+    def __init__(self, path, train_df, test_df, features):
 
         self.le = preprocessing.LabelEncoder()
         self.le.fit(train_df['Category'])
