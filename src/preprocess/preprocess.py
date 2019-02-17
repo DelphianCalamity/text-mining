@@ -48,7 +48,6 @@ class Preprocessor:
         # remove numbers and special characters
         rex = re.compile(r'[a-z]')
         # tokenize and stem
-        # print(sentence, end="\n\n")
         stem_sentence = []
         token_words = word_tokenize(sentence)
         stem_sentence = [stemmer.stem(word) for word in token_words if rex.match(word)]

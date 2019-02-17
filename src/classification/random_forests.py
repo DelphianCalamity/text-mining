@@ -1,26 +1,29 @@
+from preprocess.preprocess import *
+from classification.meanEmbeddingVectorizer import *
 from sklearn.ensemble import RandomForestClassifier
 from classification.classifier import Classifier
+
 from sklearn.pipeline import Pipeline
 
 
 class RandomForests(Classifier):
 
-    def __init__(self, path, train_file, test_file, kfold, features):
-        Classifier.__init__(self, path, train_file, test_file, kfold, features)
 
-    def run(self):
+	def __init__(self, path, train_df, test_df, features):
+		Classifier.__init__(self, path, train_df, test_df, features)
 
-        tasks = self.populate_features()
-        print(tasks)
+	def populate_features(self):    
+		tasks = Classifier.populate_features(self)
+		# Add classifier task
+		# n_estimators=100, max_depth=2,random_state=0
 
-        # n_estimators=100, max_depth=2,random_state=0
-        clf = RandomForestClassifier()
+		tasks.append(('clf', RandomForestClassifier()))
+		self.pipeline = Pipeline(tasks)
 
-        tasks.append(('clf', clf))
+	def run_kfold(self):
+		self.populate_features()
+		return self.k_fold_cv(self.pipeline)
 
-        pipeline = Pipeline(tasks)
-
-        if not self.kfold : 
-            self.predict(pipeline, "RandomForests")
-        else:
-            self.k_fold_cv(pipeline, "RandomForests")
+	def run_predict(self):
+		self.populate_features()
+		return self.predict(self.pipeline, "RandomForests")
