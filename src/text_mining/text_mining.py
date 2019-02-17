@@ -141,6 +141,8 @@ class TextMining:
         # run custom classifier
         classifier = CustomClassifier(self.classification_out_dir, self.train_df, self.test_df, self.features)
         
+        return classifier.run_kfold() if self.kfold else classifier.run_predict()        
+
     def run(self):
 
         scores = None
