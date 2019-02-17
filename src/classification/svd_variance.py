@@ -9,5 +9,5 @@ class SvdVariancePrinter(object):
         return self
 
     def transform(self, x):
-        print(self.svd.explained_variance_ratio_.sum())
+        print("svd explained_variance: " + str(self.svd.explained_variance_ratio_.sum()))
         return x

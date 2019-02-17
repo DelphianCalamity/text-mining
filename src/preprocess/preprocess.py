@@ -12,11 +12,6 @@ import re
 import spacy
 import logging
 
-"""
-    Preprocessor class is the base class for preprocessing the input texts
-
-    TODO: describe Preprocessor functionality
-"""
 
 class Preprocessor:
 

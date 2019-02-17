@@ -14,7 +14,7 @@ from duplicates.duplicates_detection import *
 class TextMining:
 
     def __init__(self, datasets, outputs, preprocess=False, wordclouds=False,
-                 dup_threshold=None, classification=None, features=None, kfold=False, beat=False, cache=False):
+                 dup_threshold=None, classification=None, features=None, kfold=False, cache=False):
         self.datasets = datasets
         self.outputs = outputs
         self.preprocess = preprocess
@@ -23,7 +23,6 @@ class TextMining:
         self.classification = classification
         self.features = features
         self.kfold = kfold
-        self.beat = beat
         self.cache = cache
 
         if self.cache:
@@ -67,7 +66,7 @@ class TextMining:
 
 
         if not self.cache:
-            if self.beat:
+            if self.classification == "BEAT":
                 print('Preprocess title')
                 self.train_df = preFilter.text_transform(self.train_df, col='Title')
                 self.train_df = preFilter.exclude_stop_words(self.train_df, col='Title')
@@ -79,7 +78,7 @@ class TextMining:
         if not self.kfold:  # Preprocess testing set
             processed_csv_test =  self.datasets + '/' + 'processed_test_set.csv'
             if not self.cache:
-                if self.beat:
+                if self.classification == "BEAT":
                     print('Preprocess title')
                     self.test_df = preFilter.text_transform(self.test_df, col='Title')
                     self.test_df = preFilter.exclude_stop_words(self.test_df, col='Title')
@@ -89,11 +88,6 @@ class TextMining:
                     self.test_df = preFilter.text_transform(self.test_df)
                 preFilter.save_to_csv(self.test_df, processed_csv_test)
 
-        # corpus = self.train_df['Content'].values
-        # vectorizer = TfidfVectorizer(stop_words='english')
-        # X = vectorizer.fit_transform(corpus).toarray()
-        # print(X.shape)
-        # exit(1)
 
     def generate_wordclouds(self):
         print("..generate wordclouds per category of the given dataset")
@@ -114,8 +108,13 @@ class TextMining:
             clf = SupportVectorMachines
         elif self.classification == 'RF':
             clf = RandomForests
-        # elif self.classification == '_KNN_':  # _KNN_ is a placeholder for out benchmark-beating classifier
-        #     cf = None
+        elif self.classification == 'BEAT':
+            print('...beat the benchmark pass')
+            # print(self.train_df['Content'][0])
+            # concat title X times to the content of the data
+            self._concat()
+            # print(self.train_df['Content'][0])
+            cf = CustomClassifier
         else:
             logging.error('Unknown classifier "%s"', self.classification)
 
@@ -124,24 +123,11 @@ class TextMining:
 
     def _concat(self):
         # multiply string by value
-
         value = 5
         for index, row in self.train_df.iterrows():
             string_to_concat = ' ' + value * (str(self.train_df.at[index, 'Title']) + ' ')
             self.train_df.at[index, 'Content'] += string_to_concat
 
-    def beat_benchmark(self):
-        print('...beat the benchmark pass')
-
-        print(self.train_df['Content'][0])
-        # concat title X times to the content of the data
-        self._concat()
-        print(self.train_df['Content'][0])
-
-        # run custom classifier
-        classifier = CustomClassifier(self.classification_out_dir, self.train_df, self.test_df, self.features)
-        
-        return classifier.run_kfold() if self.kfold else classifier.run_predict()        
 
     def run(self):
 
@@ -157,12 +143,8 @@ class TextMining:
         if self.dupThreshold:
             self.find_similar_docs()
 
-        if not self.beat:
-            if self.classification:
+        if self.classification:
                 scores = self.run_classifiers()
-
-        if self.beat:
-            self.beat_benchmark()
 
         return scores
 

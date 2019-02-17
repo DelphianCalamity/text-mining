@@ -47,7 +47,7 @@ class Classifier:
 			self.tasks.append(('tfidf', TfidfTransformer()))
 
 		if self.features == "SVD":
-			svd = TruncatedSVD(n_components=3000)
+			svd = TruncatedSVD(n_components=5000)
 			self.tasks.append(('svd', svd))
 			self.tasks.append(('print_svd_variance', SvdVariancePrinter(svd)))
 
