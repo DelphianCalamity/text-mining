@@ -117,3 +117,5 @@ src/outputs/classification_out_dir/SupportVectorMachines_testSet_categories.csv
 .idea/text-mining.iml
 .idea/vcs.xml
 .idea/workspace.xml
+
+datasets
