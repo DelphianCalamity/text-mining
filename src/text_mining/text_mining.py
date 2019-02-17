@@ -1,6 +1,7 @@
 import pandas as pd
 import logging
 import os
+import math
 
 from classification.support_vector_machines import *
 from classification.random_forests import *
@@ -122,13 +123,20 @@ class TextMining:
         return classifier.run_kfold() if self.kfold else classifier.run_predict()        
 
     def _concat(self):
-        pass
+        # multiply string by value
+
+        value = 5
+        for index, row in self.train_df.iterrows():
+            string_to_concat = ' ' + value * (str(self.train_df.at[index, 'Title']) + ' ')
+            self.train_df.at[index, 'Content'] += string_to_concat
 
     def beat_benchmark(self):
         print('...beat the benchmark pass')
 
+        print(self.train_df['Content'][0])
         # concat title X times to the content of the data
         self._concat()
+        print(self.train_df['Content'][0])
 
         # run custom classifier
         classifier = CustomClassifier(self.classification_out_dir, self.train_df, self.test_df, self.features)
