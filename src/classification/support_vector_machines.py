@@ -7,7 +7,6 @@ from sklearn.pipeline import Pipeline
 
 class SupportVectorMachines(Classifier):
 
-
 	def __init__(self, path, train_df, test_df, features):
 		Classifier.__init__(self, path, train_df, test_df, features)
 

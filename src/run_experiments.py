@@ -2,6 +2,7 @@ import csv
 import argparse
 from text_mining.text_mining import *
 
+
 # A python Script to Run all the classification experiments
 def make_args_parser():
 
@@ -20,7 +21,7 @@ def print_config(args):
 		print('\t', key, '->',  arg_map[key])
 
 
-def PrintEvaluationFile(scores, path):
+def print_evaluation_file(scores, path):
 
 	with open(path + '/' + 'EvaluationMetric_10fold.csv', 'w') as f:
 		
@@ -75,7 +76,7 @@ def main():
 	exp = TextMining(args.datasets, args.outputs, classification="BEAT", features="", kfold=True, cache=True)
 	scores.append(exp.run())
 
-	PrintEvaluationFile(scores, classification_out_dir)
+	print_evaluation_file(scores, classification_out_dir)
 
 
 if __name__ == '__main__':

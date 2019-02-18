@@ -49,7 +49,6 @@ class Preprocessor:
 
         return " ".join(stem_sentence)
 
-
     def lem_sentence(self, sentence):
 
         rex = re.compile(r'[a-z]')
@@ -74,7 +73,6 @@ class Preprocessor:
         train_df = train_df[pd.notnull(train_df[col])]
         
         return train_df
-
 
     def tokenize_articles(self, X_train):
         tokenized = []

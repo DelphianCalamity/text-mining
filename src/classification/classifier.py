@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from sklearn import preprocessing
 from sklearn.model_selection import KFold
@@ -10,7 +9,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.decomposition import TruncatedSVD
 from preprocess.preprocess import *
 from classification.svd_variance import *
-from sklearn import metrics
+# from sklearn import metrics
 import gensim
 
 
@@ -64,7 +63,7 @@ class Classifier:
 		pipeline.fit(self.X_train, self.Y_train)
 		predicted = pipeline.predict(self.X_test)
 		predlabels = self.le.inverse_transform(predicted)
-		self.PrintPredictorFile(classifier, predlabels, self.test_ids, self.path)
+		self.print_predictor_file(classifier, predlabels, self.test_ids, self.path)
 		return None
 
 	def k_fold_cv(self, pipeline):
@@ -81,7 +80,7 @@ class Classifier:
 			score_array.append(precision_recall_fscore_support(Ylabels, predlabels, average=None))
 			accuracy_array.append(accuracy_score(Ylabels, predlabels))
 			# print(metrics.classification_report(Ylabels, predlabels))
-
+		
 		avg_accuracy = round(np.mean(accuracy_array),4)
 		avg_scores = np.mean(np.mean(score_array, axis=0), axis=1)
 		avg_precision = round(avg_scores[0],4)
@@ -92,8 +91,7 @@ class Classifier:
 		print("Accuracy: " + str(avg_accuracy) + "\nPrecision: " + str(avg_precision) + "\nRecall: " + str(avg_recall) + "\n")
 		return avg_accuracy, avg_precision, avg_recall
 
-
-	def PrintPredictorFile(self, name, predicted_values, Ids, path):
+	def print_predictor_file(self, name, predicted_values, Ids, path):
 
 		with open(path + name + '_testSet_categories.csv', 'w') as f:
 			sep = '\t'
@@ -107,4 +105,3 @@ class Classifier:
 				f.write(sep)
 				f.write(predicted_value)
 				f.write('\n')
-

@@ -1,5 +1,3 @@
-from sklearn.decomposition import TruncatedSVD
-
 
 class SvdVariancePrinter(object):
     def __init__(self, svd):

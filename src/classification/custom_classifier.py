@@ -9,14 +9,14 @@ from sklearn.pipeline import Pipeline
 
 
 class CustomClassifier(Classifier):
-	
+
     def __init__(self, path, train_df, test_df, features):
-    	Classifier.__init__(self, path, train_df, test_df, features)
-    def populate_features(self):    
+        Classifier.__init__(self, path, train_df, test_df, features)
+
+    def populate_features(self):
         tasks = Classifier.populate_features(self)
 
         # Add classifier task
-
         clf1 = LogisticRegression(solver='lbfgs', multi_class='multinomial', random_state=1)
         clf2 = RandomForestClassifier(n_estimators=100, criterion='entropy')
         clf3 = LinearSVC()

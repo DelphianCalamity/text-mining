@@ -64,7 +64,6 @@ class TextMining:
         # Preprocess training set
         processed_csv_train =  self.datasets + '/' + 'processed_train_set.csv'
 
-
         if not self.cache:
             if self.classification == "BEAT":
                 print('Preprocess title')
@@ -87,7 +86,6 @@ class TextMining:
                     self.test_df = preFilter.exclude_stop_words(self.test_df)
                     self.test_df = preFilter.text_transform(self.test_df)
                 preFilter.save_to_csv(self.test_df, processed_csv_test)
-
 
     def generate_wordclouds(self):
         print("..generate wordclouds per category of the given dataset")
@@ -127,7 +125,6 @@ class TextMining:
         for index, row in self.train_df.iterrows():
             string_to_concat = ' ' + value * (str(self.train_df.at[index, 'Title']) + ' ')
             self.train_df.at[index, 'Content'] += string_to_concat
-
 
     def run(self):
 
