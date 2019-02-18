@@ -30,7 +30,7 @@ class DuplicateDetection:
             vectorizer = TfidfVectorizer(stop_words='english')
             X = vectorizer.fit_transform(corpus).toarray()
 
-            print(X.shape)
+            # print(X.shape)
 
             for idx_i, i in enumerate(X):
                 if i.any(axis=0) :
@@ -53,7 +53,7 @@ class DuplicateDetection:
             for x in similarities:
                 f.write( str(x[0]) )
                 f.write( sep )
-                f.write( x[1] )
+                f.write( str(x[1]) )
                 f.write( sep )
                 f.write( str(similarities[x]) )
                 f.write('\n')

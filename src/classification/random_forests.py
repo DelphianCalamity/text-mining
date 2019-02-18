@@ -21,4 +21,4 @@ class RandomForests(Classifier):
 
 	def run_predict(self):
 		self.populate_features()
-		return self.predict(self.pipeline, "RandomForests")
+		return self.predict(self.pipeline)

@@ -48,6 +48,7 @@ def main():
 	exp = TextMining(args.datasets, args.outputs, classification="SVM", features="BoW", kfold=True, cache=True)
 	scores.append(exp.run())
 
+	# print(scores)
 	# Experiment 2 : Random Forest - BoW
 	exp = TextMining(args.datasets, args.outputs, classification="RF", features="BoW", kfold=True, cache=True)
 	scores.append(exp.run())
@@ -68,12 +69,8 @@ def main():
 	exp = TextMining(args.datasets, args.outputs, classification="RF", features="W2V", kfold=True, cache=True)
 	scores.append(exp.run())
 
-	# Experiment 6 :  Random Forest - W2V
-	exp = TextMining(args.datasets, args.outputs, classification="RF", features="W2V", kfold=True, cache=True)
-	scores.append(exp.run())
-
 	# Experiment 7 :  Custom Classifier - Beat the Benchmark
-	exp = TextMining(args.datasets, args.outputs, classification="BEAT", features="", kfold=True, cache=True)
+	exp = TextMining(args.datasets, args.outputs, classification="BEAT", features="BoW", kfold=True, cache=True)
 	scores.append(exp.run())
 
 	print_evaluation_file(scores, classification_out_dir)

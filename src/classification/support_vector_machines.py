@@ -21,4 +21,4 @@ class SupportVectorMachines(Classifier):
 
 	def run_predict(self):
 		self.populate_features()
-		return self.predict(self.pipeline, "SupportVectorMachines")
+		return self.predict(self.pipeline)

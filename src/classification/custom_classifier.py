@@ -16,12 +16,12 @@ class CustomClassifier(Classifier):
     def populate_features(self):
         tasks = Classifier.populate_features(self)
 
-        # Add classifier task
-        clf1 = LogisticRegression(solver='lbfgs', multi_class='multinomial', random_state=1)
+        # Add classifier tasks
+        clf1 = LogisticRegression(solver='lbfgs', multi_class='multinomial', max_iter=200, random_state=1)
         clf2 = RandomForestClassifier(n_estimators=100, criterion='entropy')
-        clf3 = SVC(kernel='linear',probability=True)
+        clf3 = SVC(kernel='linear', probability=True)
 
-        tasks.append(('clf', VotingClassifier(estimators = [('knn', clf1), ('rf', clf2), ('svm', clf3)], voting='soft', weights=[4, 2, 5])))
+        tasks.append(('clf', VotingClassifier(estimators = [('lr', clf1), ('rf', clf2), ('svm', clf3)], voting='soft', weights=[4, 2, 5])))
         self.pipeline = Pipeline(tasks)
 
     def run_kfold(self):
@@ -30,4 +30,4 @@ class CustomClassifier(Classifier):
 
     def run_predict(self):
         self.populate_features()
-        return self.predict(self.pipeline, "RandomForests")
+        return self.predict(self.pipeline)

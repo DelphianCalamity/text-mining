@@ -58,12 +58,12 @@ class Classifier:
 	def run_predict(self):
 		pass
 
-	def predict(self, pipeline, classifier):
+	def predict(self, pipeline):
 
 		pipeline.fit(self.X_train, self.Y_train)
 		predicted = pipeline.predict(self.X_test)
 		predlabels = self.le.inverse_transform(predicted)
-		self.print_predictor_file(classifier, predlabels, self.test_ids, self.path)
+		self.print_predictor_file(predlabels, self.test_ids, self.path)
 		return None
 
 	def k_fold_cv(self, pipeline):
@@ -89,11 +89,11 @@ class Classifier:
 		# print(avg_scores)
 		
 		print("Accuracy: " + str(avg_accuracy) + "\nPrecision: " + str(avg_precision) + "\nRecall: " + str(avg_recall) + "\n")
-		return avg_accuracy, avg_precision, avg_recall
+		return [avg_accuracy, avg_precision, avg_recall]
 
-	def print_predictor_file(self, name, predicted_values, Ids, path):
+	def print_predictor_file(self, predicted_values, Ids, path):
 
-		with open(path + name + '_testSet_categories.csv', 'w') as f:
+		with open(path + 'testSet_categories.csv', 'w') as f:
 			sep = '\t'
 			f.write('Test_Document_ID')
 			f.write(sep)
