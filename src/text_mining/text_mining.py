@@ -112,7 +112,7 @@ class TextMining:
             # concat title X times to the content of the data
             self._concat()
             # print(self.train_df['Content'][0])
-            cf = CustomClassifier
+            clf = CustomClassifier
         else:
             logging.error('Unknown classifier "%s"', self.classification)
 
