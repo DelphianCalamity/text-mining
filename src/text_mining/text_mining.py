@@ -121,7 +121,7 @@ class TextMining:
 
     def _concat(self):
         # multiply string by value
-        value = 15
+        value = 5
         for index, row in self.train_df.iterrows():
             string_to_concat = ' ' + value * (str(self.train_df.at[index, 'Title']) + ' ')
             self.train_df.at[index, 'Content'] += string_to_concat

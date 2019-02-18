@@ -10,7 +10,7 @@ Test_Document_ID	Predicted Category
 39	Technology
 40	Business
 44	Business
-56	Business
+56	Technology
 66	Technology
 75	Business
 77	Business
@@ -21,7 +21,7 @@ Test_Document_ID	Predicted Category
 112	Technology
 115	Technology
 139	Business
-140	Politics
+140	Business
 152	Business
 156	Technology
 162	Technology
@@ -85,7 +85,7 @@ Test_Document_ID	Predicted Category
 557	Business
 558	Business
 561	Business
-565	Technology
+565	Politics
 575	Business
 583	Business
 589	Business
@@ -145,7 +145,7 @@ Test_Document_ID	Predicted Category
 827	Film
 830	Business
 837	Technology
-838	Technology
+838	Business
 839	Business
 849	Business
 854	Technology
@@ -262,7 +262,7 @@ Test_Document_ID	Predicted Category
 1425	Technology
 1428	Business
 1429	Business
-1430	Film
+1430	Business
 1433	Technology
 1437	Technology
 1438	Technology
@@ -393,7 +393,7 @@ Test_Document_ID	Predicted Category
 2100	Politics
 2101	Politics
 2103	Politics
-2104	Politics
+2104	Film
 2116	Film
 2117	Politics
 2118	Politics
@@ -528,7 +528,7 @@ Test_Document_ID	Predicted Category
 2702	Business
 2704	Technology
 2706	Technology
-2722	Politics
+2722	Business
 2732	Technology
 2735	Business
 2736	Politics
@@ -571,7 +571,7 @@ Test_Document_ID	Predicted Category
 2870	Politics
 2873	Politics
 2878	Business
-2885	Politics
+2885	Business
 2892	Politics
 2896	Politics
 2905	Politics
@@ -588,7 +588,7 @@ Test_Document_ID	Predicted Category
 2948	Business
 2952	Politics
 2957	Politics
-2969	Business
+2969	Politics
 2970	Business
 2979	Technology
 2994	Business
@@ -694,7 +694,7 @@ Test_Document_ID	Predicted Category
 3442	Business
 3448	Politics
 3457	Business
-3462	Film
+3462	Business
 3463	Business
 3464	Business
 3472	Business
@@ -1158,7 +1158,7 @@ Test_Document_ID	Predicted Category
 5679	Film
 5683	Film
 5689	Film
-5692	Film
+5692	Technology
 5693	Film
 5694	Film
 5700	Film
@@ -1408,7 +1408,7 @@ Test_Document_ID	Predicted Category
 6893	Business
 6895	Business
 6897	Business
-6898	Business
+6898	Politics
 6907	Business
 6911	Business
 6917	Film
@@ -1445,7 +1445,7 @@ Test_Document_ID	Predicted Category
 7068	Business
 7071	Business
 7090	Technology
-7101	Politics
+7101	Technology
 7105	Technology
 7108	Technology
 7109	Politics
@@ -1507,7 +1507,7 @@ Test_Document_ID	Predicted Category
 7401	Politics
 7411	Business
 7425	Politics
-7426	Football
+7426	Business
 7445	Politics
 7454	Politics
 7455	Politics
@@ -1568,7 +1568,7 @@ Test_Document_ID	Predicted Category
 7762	Business
 7764	Politics
 7765	Politics
-7770	Football
+7770	Business
 7772	Politics
 7773	Politics
 7774	Politics
@@ -1593,7 +1593,7 @@ Test_Document_ID	Predicted Category
 7857	Politics
 7871	Business
 7877	Business
-7881	Politics
+7881	Business
 7884	Business
 7896	Politics
 7901	Politics
@@ -1695,7 +1695,7 @@ Test_Document_ID	Predicted Category
 8348	Business
 8359	Business
 8360	Film
-8361	Film
+8361	Technology
 8367	Business
 8368	Business
 8372	Business
@@ -1794,10 +1794,10 @@ Test_Document_ID	Predicted Category
 8832	Politics
 8835	Business
 8840	Politics
-8857	Politics
+8857	Business
 8860	Politics
 8865	Politics
-8872	Football
+8872	Technology
 8877	Technology
 8885	Football
 8888	Technology
@@ -2272,7 +2272,7 @@ Test_Document_ID	Predicted Category
 11439	Business
 11447	Business
 11448	Business
-11451	Politics
+11451	Business
 11458	Politics
 11464	Politics
 11467	Politics
@@ -2425,7 +2425,7 @@ Test_Document_ID	Predicted Category
 12223	Technology
 12226	Football
 12228	Football
-12229	Film
+12229	Football
 12240	Technology
 12241	Football
 12256	Football
@@ -2554,9 +2554,9 @@ Test_Document_ID	Predicted Category
 12897	Film
 12904	Film
 12909	Film
-12913	Football
+12913	Business
 12916	Film
-12920	Politics
+12920	Film
 12922	Film
 12934	Film
 12940	Film
@@ -2600,7 +2600,7 @@ Test_Document_ID	Predicted Category
 13142	Business
 13144	Film
 13148	Business
-13157	Technology
+13157	Business
 13158	Business
 13162	Football
 13164	Technology
@@ -2714,7 +2714,7 @@ Test_Document_ID	Predicted Category
 13715	Football
 13717	Football
 13721	Film
-13729	Film
+13729	Football
 13733	Football
 13738	Football
 13753	Football
@@ -2736,7 +2736,7 @@ Test_Document_ID	Predicted Category
 13826	Technology
 13827	Technology
 13836	Technology
-13847	Technology
+13847	Business
 13849	Technology
 13851	Technology
 13852	Football
@@ -2781,12 +2781,12 @@ Test_Document_ID	Predicted Category
 14066	Politics
 14068	Football
 14071	Business
-14076	Business
+14076	Politics
 14077	Technology
-14082	Politics
+14082	Business
 14095	Politics
 14105	Politics
-14108	Politics
+14108	Business
 14113	Business
 14116	Politics
 14130	Politics
@@ -2883,7 +2883,7 @@ Test_Document_ID	Predicted Category
 14494	Film
 14495	Film
 14496	Film
-14504	Politics
+14504	Business
 14506	Business
 14508	Business
 14514	Politics
@@ -2951,7 +2951,7 @@ Test_Document_ID	Predicted Category
 14750	Film
 14755	Film
 14756	Film
-14762	Film
+14762	Politics
 14763	Film
 14765	Film
 14766	Film
@@ -2980,7 +2980,7 @@ Test_Document_ID	Predicted Category
 14863	Business
 14865	Politics
 14868	Business
-14879	Politics
+14879	Business
 14885	Business
 14889	Politics
 14891	Politics

@@ -17,7 +17,7 @@ class CustomClassifier(Classifier):
         tasks = Classifier.populate_features(self)
 
         # Add classifier tasks
-        clf1 = LogisticRegression(solver='lbfgs', multi_class='multinomial', max_iter=200, random_state=1)
+        clf1 = LogisticRegression(solver='lbfgs', multi_class='multinomial', max_iter=100, random_state=1)
         clf2 = RandomForestClassifier(n_estimators=100, criterion='entropy')
         clf3 = SVC(kernel='linear', probability=True)
 
