@@ -2,7 +2,7 @@ from preprocess.preprocess import *
 from classification.meanEmbeddingVectorizer import *
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
-from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 from classification.classifier import Classifier
 
 from sklearn.pipeline import Pipeline
@@ -19,7 +19,7 @@ class CustomClassifier(Classifier):
         # Add classifier task
         clf1 = LogisticRegression(solver='lbfgs', multi_class='multinomial', random_state=1)
         clf2 = RandomForestClassifier(n_estimators=100, criterion='entropy')
-        clf3 = LinearSVC()
+        clf3 = SVC(kernel='linear',probability=True)
 
         tasks.append(('clf', VotingClassifier(estimators = [('knn', clf1), ('rf', clf2), ('svm', clf3)], voting='soft', weights=[4, 2, 5])))
         self.pipeline = Pipeline(tasks)
